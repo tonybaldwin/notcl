@@ -7,5 +7,9 @@ by tony baldwin | http://wiki.tonybaldwin.info
 
 ![NoTcl](http://tonybaldwin.info/images/notclshot20140204.png)
 
-Cross-platform, Windows, Mac, Linux
+Cross-platform, Windows, Linux
 Written in Tcl/Tk
+
+also available with chocolatey
+
+`cinst notcl`
