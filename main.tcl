@@ -28,8 +28,8 @@ bind . <Control-t> {eval exec xterm &}
 bind . <Control-p> {prnt}
 bind . <Control-o> {OpenFile}
 bind . <Control-q> {clear}
-bind . <F11> {eval exec ticklecal}
-bind . <F12> {eval exec tcalcu}
+bind . <F3> {FindPopup}
+bind . <F4> {termin}
 
 
 ## filetypes
@@ -80,7 +80,9 @@ menu .fluff.ed.t -tearoff 1
 .fluff.ed.t add command -label "Undo" -command {catch {.txt.txt edit undo}} -accelerator Ctrl+z
 .fluff.ed.t add command -label "Redo" -command {catch {.txt.txt edit redo}} -accelerator Ctrl+r
 .fluff.ed.t add separator
-.fluff.ed.t add command -label "Terminal" -command {termin}
+.fluff.ed.t add command -label "Search" -command {FindPopup} -accelerator F3
+.fluff.ed.t add separator
+.fluff.ed.t add command -label "Terminal" -command {termin} -accelerator F4
 .fluff.ed.t add command -label "About" -command {about}
 
 # terminal button starts xterm or cmd.exe
@@ -258,5 +260,215 @@ pack .about.t -in .about -side top
 pack .about.o -in .about -side top
 
 }
+
+# find/replace/go to line
+############################################FIND REPLACE DIALOG
+
+proc FindPopup {} {
+
+global seltxt repltxt
+
+toplevel .fpop 
+# -width 12c -height 4c
+
+wm title .fpop "Find Text"
+
+frame .fpop.l1 -bd 2 -relief raised
+
+tk::label .fpop.l1.fidis -text "FIND     :"
+tk::entry .fpop.l1.en1 -width 20 -textvariable seltxt
+tk::button .fpop.l1.finfo -text "Forward" -command {FindWord  -forwards $seltxt}
+tk::button .fpop.l1.finbk -text "Backward" -command {FindWord  -backwards $seltxt}
+tk::button .fpop.l1.tagall -text "Highlight All" -command {TagAll}
+
+pack .fpop.l1.fidis -in .fpop.l1 -side left
+pack .fpop.l1.en1 -in .fpop.l1 -side left
+pack .fpop.l1.finfo -in .fpop.l1 -side left
+pack .fpop.l1.finbk -in .fpop.l1 -side left
+pack .fpop.l1.tagall -in .fpop.l1 -side left
+pack .fpop.l1 -in .fpop -fill x
+
+
+frame .fpop.l2 -bd 2 -relief raised
+
+tk::label .fpop.l2.redis -text "REPLACE:"
+tk::entry .fpop.l2.en2 -width 20 -textvariable repltxt
+tk::button .fpop.l2.refo -text "Forward" -command {ReplaceSelection -forwards}
+tk::button .fpop.l2.reback -text "Backward" -command {ReplaceSelection -backwards}
+tk::button .fpop.l2.repall -text "Replace All" -command {ReplaceAll}
+
+pack .fpop.l2.redis -in .fpop.l2 -side left
+pack .fpop.l2.en2 -in .fpop.l2 -side left
+pack .fpop.l2.refo -in .fpop.l2 -side left
+pack .fpop.l2.reback -in .fpop.l2 -side left
+pack .fpop.l2.repall -in .fpop.l2 -side left
+pack .fpop.l2 -in .fpop -fill x
+
+frame .fpop.l3 -bd 2 -relief raised
+
+tk::label .fpop.l3.goto -text "Line No. :"
+tk::entry .fpop.l3.line -textvariable lino
+tk::button .fpop.l3.now -text "Go" -command {gotoline}
+tk::button .fpop.l3.dismis -text Done -command {destroy .fpop}
+
+pack .fpop.l3.goto -in .fpop.l3 -side left
+pack .fpop.l3.line -in .fpop.l3 -side left
+pack .fpop.l3.now -in .fpop.l3 -side left
+pack .fpop.l3.dismis -in .fpop.l3 -side right
+pack .fpop.l3 -in .fpop -fill x
+
+
+# focus .fpop.en1
+}
+
+## all this find-replace stuff needs work...
+
+proc FindWord {swit seltxt} {
+global found
+set l1 [string length $seltxt]
+scan [.txt.txt index end] %d nl
+scan [.txt.txt index insert] %d cl
+if {[string compare $swit "-forwards"] == 0 } {
+set curpos [.txt.txt index "insert + $l1 chars"]
+
+for {set i $cl} {$i < $nl} {incr i} {
+		
+	#.txt.txt mark set first $i.0
+	.txt.txt mark set last  $i.end ;#another way "first lineend"
+	set lpos [.txt.txt index last]
+	set curpos [.txt.txt search $swit -exact $seltxt $curpos]
+	if {$curpos != ""} {
+		selection clear .txt.txt 
+		.txt.txt mark set insert "$curpos + $l1 chars "
+		.txt.txt see $curpos
+		set found 1
+		break
+		} else {
+		set curpos $lpos
+		set found 0
+			}
+	}
+} else {
+	set curpos [.txt.txt index insert]
+	set i $cl
+	.txt.txt mark set first $i.0
+	while  {$i >= 1} {
+		
+		set fpos [.txt.txt index first]
+		set i [expr $i-1]
+		
+		set curpos [.txt.txt search $swit -exact $seltxt $curpos $fpos]
+		if {$curpos != ""} {
+			selection clear .txt.txt
+			.txt.txt mark set insert $curpos
+			.txt.txt see $curpos
+			set found 1
+			break
+			} else {
+				.txt.txt mark set first $i.0
+				.txt.txt mark set last "first lineend"
+				set curpos [.txt.txt index last]
+				set found 0
+			}
+		
+	}
+}
+}
+
+proc FindSelection {swit} {
+
+global seltxt GotSelection
+if {$GotSelection == 0} {
+	set seltxt [selection get STRING]
+	set GotSelection 1
+	} 
+FindWord $swit $seltxt
+}
+
+proc FindValue {} {
+
+FindPopup
+}
+
+proc TagSelection {} {
+global seltxt GotSelection
+if {$GotSelection == 0} {
+	set seltxt [selection get STRING]
+	set GotSelection 1
+	} 
+TagAll 
+}
+
+proc ReplaceSelection {swit} {
+global repltxt seltxt found
+set l1 [string length $seltxt]
+FindWord $swit $seltxt
+if {$found == 1} {
+	.txt.txt delete insert "insert + $l1 chars"
+	.txt.txt insert insert $repltxt
+	}
+}
+
+proc ReplaceAll {} {
+global seltxt repltxt
+set l1 [string length $seltxt]
+set l2 [string length $repltxt]
+scan [.txt.txt index end] %d nl
+set curpos [.txt.txt index 1.0]
+for {set i 1} {$i < $nl} {incr i} {
+	.txt.txt mark set last $i.end
+	set lpos [.txt.txt index last]
+	set curpos [.txt.txt search -forwards -exact $seltxt $curpos $lpos]
+	
+	if {$curpos != ""} {
+		.txt.txt mark set insert $curpos
+		.txt.txt delete insert "insert + $l1 chars"
+		.txt.txt insert insert $repltxt
+		.txt.txt mark set insert "insert + $l2 chars"
+		set curpos [.txt.txt index insert]
+		} else {
+			set curpos $lpos
+			}
+	}
+}
+
+proc TagAll {} {
+global seltxt 
+set l1 [string length $seltxt]
+scan [.txt.txt index end] %d nl
+set curpos [.txt.txt index insert]
+for {set i 1} {$i < $nl} {incr i} {
+	.txt.txt mark set last $i.end
+	set lpos [.txt.txt index last]
+	set curpos [.txt.txt search -forwards -exact $seltxt $curpos $lpos]
+		if {$curpos != ""} {
+		.txt.txt mark set insert $curpos
+		scan [.txt.txt index "insert + $l1 chars"] %f pos
+		.txt.txt tag add $seltxt $curpos $pos
+		.txt.txt tag configure $seltxt -background yellow -foreground purple
+		.txt.txt mark set insert "insert + $l1 chars"
+		set curpos $pos
+		} else {
+			set curpos $lpos
+			}
+	}
+}
+
+
+
+# This program was written by Tony Baldwin / http://wiki.tonybaldwin.info
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
