@@ -79,31 +79,26 @@ menu .fluff.ed.t -tearoff 1
 .fluff.ed.t add command -label "Select all"	-command ".txt.txt tag add sel 1.0 end" -accelerator Ctrl+a
 .fluff.ed.t add command -label "Undo" -command {catch {.txt.txt edit undo}} -accelerator Ctrl+z
 .fluff.ed.t add command -label "Redo" -command {catch {.txt.txt edit redo}} -accelerator Ctrl+r
+.fluff.ed.t add separator
+.fluff.ed.t add command -label "Terminal" -command {termin}
 .fluff.ed.t add command -label "About" -command {about}
 
-tk::button .fluff.abt -text About -command {about}
-
+# terminal button starts xterm or cmd.exe
 tk::button .fluff.term -text "Terminal" -command {termin}
 
-#tk::label .fluff.cmdl -text "Execute external command: "
-#tk::entry .fluff.cmde -textvar xcom
-#tk::button .fluff.cmdb -text "GO" -command {xcmd}
-# pack em in...
-############################
+# font combobox binding
+tk::label .fluff.fnt -text "font size: " 
+bind .fluff.size <<ComboboxSelected>> [list sizeFont .txt.txt .fluff.size]
+
+# about button
+tk::button .fluff.abt -text About -command {about}
 
 pack .fluff.mb -in .fluff -side left
 pack .fluff.ed -in .fluff -side left
-pack .fluff.size -in .fluff -side left
-#pack .fluff.cmdl -in .fluff -side left
-#pack .fluff.cmde -in .fluff -side left
-#pack .fluff.cmdb -in .fluff -side left
-pack .fluff.term -in .fluff -side left
 pack .fluff.abt -in .fluff -side right
-
-# font combobox binding
-
-bind .fluff.size <<ComboboxSelected>> [list sizeFont .txt.txt .fluff.size]
-
+pack .fluff.size -in .fluff -side right
+pack .fluff.fnt -in .fluff -side right
+pack .fluff.term -in .fluff -side right
 pack .fluff -in . -fill x
 
 # Here is the text widget
