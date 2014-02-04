@@ -1,7 +1,7 @@
 notcl
 =====
 
-simple text editor in tcl/tk
+a very simple, but handy text editor in tcl/tk
 
 by tony baldwin | http://wiki.tonybaldwin.info
 
@@ -10,6 +10,8 @@ by tony baldwin | http://wiki.tonybaldwin.info
 Cross-platform, Windows, Linux
 Written in Tcl/Tk
 
+---------
 also available with chocolatey
 
 `cinst notcl`
+
