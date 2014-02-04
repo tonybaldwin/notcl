@@ -272,6 +272,7 @@ toplevel .fpop
 # -width 12c -height 4c
 
 wm title .fpop "Find Text"
+bind .fpop <Escape> {destroy .fpop}
 
 frame .fpop.l1 -bd 2 -relief raised
 
