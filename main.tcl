@@ -10,6 +10,8 @@ set filename " "
 set currentfile " "
 global os
 set os $tcl_platform(os)
+global xcom
+set xcom ""
 
 # bindings
 ########################
@@ -81,12 +83,21 @@ menu .fluff.ed.t -tearoff 1
 
 tk::button .fluff.abt -text About -command {about}
 
+tk::button .fluff.term -text "Terminal" -command {termin}
+
+#tk::label .fluff.cmdl -text "Execute external command: "
+#tk::entry .fluff.cmde -textvar xcom
+#tk::button .fluff.cmdb -text "GO" -command {xcmd}
 # pack em in...
 ############################
 
 pack .fluff.mb -in .fluff -side left
 pack .fluff.ed -in .fluff -side left
 pack .fluff.size -in .fluff -side left
+#pack .fluff.cmdl -in .fluff -side left
+#pack .fluff.cmde -in .fluff -side left
+#pack .fluff.cmdb -in .fluff -side left
+pack .fluff.term -in .fluff -side left
 pack .fluff.abt -in .fluff -side right
 
 # font combobox binding
@@ -118,6 +129,18 @@ set foco .txt.txt
 bind .txt.txt <FocusIn> {set foco .txt.txt}
 # bind .txt.txt <Return> {indent %W;break}
 
+proc termin {} {
+	if { $::os == "Windows NT" } {
+		#print routine for windows
+		eval exec "C:/Windows/system32/cmd.exe /c start &"
+	} elseif { $::os == "Linux" } {
+				exec xterm &
+	}
+}
+
+proc xcmd {} {
+	eval exec $::xcom &
+}
 
 # font size
 #################
