@@ -43,16 +43,25 @@ bind . <F4> {termin}
 set file_types {
 {"All Files" * }
 {"Text Files" { .txt .TXT}}
+{"LaTex" {.tex}}
 {"Tcl Scripts" {.tcl}}
-{"Shell scripts" {.sh}}
-{"PowerShell Scripts" {.ps1}}
-{"Perl Scripts" {.pl}}
+{"Python" {.py}}
+{"Perl" {.pl}}
+{"PHP" {.php}}
+{"Java" {.java}}
 {"Ruby Scripts" {.rb}}
-{"Python Scripts" {.py}}
 {"Lua Scripts" {.lua}}
-{"Web Pages" {.php,.html}}
+{"C files" {.c}}
+{"Shell scripts" {.sh}}
+{"Xml" {.xml}}
+{"Html" {.html}}
+{"CSS" {.css}}
+{"PowerShell Scripts" {.ps1}}
+{"Visual Basic Scripts" {.vs}}
+{"AutoIt" {.au3}}
 {"NuSpec Files" {.nuspec}}
 }
+
 
 wm title . "NoTcl"
 
