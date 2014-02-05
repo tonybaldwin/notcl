@@ -57,7 +57,7 @@ set file_types {
 {"Html" {.html}}
 {"CSS" {.css}}
 {"PowerShell Scripts" {.ps1}}
-{"Visual Basic Scripts" {.vs}}
+{"Visual Basic Scripts" {.vsb}}
 {"AutoIt" {.au3}}
 {"NuSpec Files" {.nuspec}}
 }
