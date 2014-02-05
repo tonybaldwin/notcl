@@ -13,5 +13,7 @@ Written in Tcl/Tk
 ---------
 also available with chocolatey
 
+see http://chocolatey.org/packages/notcl
+
 `cinst notcl`
 
