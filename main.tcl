@@ -6,6 +6,9 @@
 # just tricking tcl here\
 exec wish8.5 -f "$0" ${1+"$@"}
 
+package require Tk
+package require Ttk
+
 global filename
 global filetypes
 set filename " "
@@ -19,7 +22,7 @@ set xcom ""
 ########################
 
 
-bind . <Escape> leave
+bind . <Escape> {leave}
 bind . <Control-z> {catch {.txt.txt edit undo}}
 bind . <Control-r> {catch {.txt.txt edit redo}}
 bind . <Control-a> {.txt.txt tag add sel 1.0 end}
@@ -134,8 +137,17 @@ proc termin {} {
 		eval exec "C:/Windows/system32/cmd.exe /c start &"
 	} elseif { $::os == "Linux" } {
 				exec xterm &
-	}
+	} else {sorry}
 }
+
+proc sorry {} {
+	toplevel .sorry
+	wm title .sorry "Sorry"
+	tk::message .sorry.t -text "I'm sorry, but I do not know what to do on $::os." -width 270
+	tk::button .sorry.o -text "Okay" -command {destroy .sorry} 
+	pack .sorry.t -in .sorry -side top
+	pack .sorry.o -in .sorry -side top
+}	
 
 proc xcmd {} {
 	eval exec $::xcom &
@@ -205,7 +217,7 @@ proc prnt {} {
 		eval exec "C:/Windows/system32/cmd.exe /c start /min C:/Windows/system32/notepad.EXE /p $::filename"
 	} elseif { $::os == "Linux" } {
 		exec cat $::filename | lpr
-	}
+	} else {sorry}
 }
 
 ## b'bye
@@ -256,7 +268,7 @@ toplevel .about
 wm title .about "About NoTcl"
 # tk_setPalette background $::wbg 
 
-tk::message .about.t -text "NoTcl\n by Tony Baldwin\n text editing made simple (and tclish)\n released under the GPL\n \n http://wiki.tonybaldwin.info" -width 270
+tk::message .about.t -text "NoTcl\n by Tony Baldwin\n text editing made simple (and tclish)\n released under the GPL\n \n http://tonyb.us/notcl" -width 270
 tk::button .about.o -text "Okay" -command {destroy .about} 
 pack .about.t -in .about -side top
 pack .about.o -in .about -side top
@@ -462,7 +474,7 @@ for {set i 1} {$i < $nl} {incr i} {
 # This program was written by Tony Baldwin / http://wiki.tonybaldwin.info
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
+# the Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
 
 # This program is distributed in the hope that it will be useful,

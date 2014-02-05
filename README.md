@@ -3,7 +3,7 @@ notcl
 
 a very simple, but handy text editor in tcl/tk
 
-by tony baldwin | http://wiki.tonybaldwin.info
+by tony baldwin | http://tonyb.us/notcl
 
 ![NoTcl](http://tonybaldwin.info/images/notclshot201402041200.png)
 
