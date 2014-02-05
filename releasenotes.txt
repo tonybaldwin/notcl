@@ -1,0 +1,45 @@
+----------
+Notcl 1.2.1
+-----------
+
+Minor changes to the GUI.
+Moved the terminal button, the font-sizer, rearranged some menu items.
+
+---------
+NoTcl 1.2
+---------
+
+Added a button that will open a terminal
+	either a cmd.exe in Windows, or
+	xterm in gnu/linux systems
+
+Copy/pastad the search/replace stuff from my TclText into NoTcl, too,
+since it was missing that very basic, but very useful feature.
+
+---------
+NoTcl 1.1
+----------
+
+I didn't have printing working on Windows.
+Now, NoTcl prints properly on either Windows or Linux.
+
+---------
+NoTcl 1.0
+---------
+
+I've had this thing lying around my linux boxen for several years for quick-n-dirty editing, taking notes, etc.
+I have it bound to a keycombo in my openbox rc.xml, so I can just punch Mod1+n and take notes with it.
+Handy.
+But I'd never released it. There are a million text editors for linux (I have another out there, myself, 
+TclText ( http://tonyb.us/tcltext ),but that one has a lot more features, 
+some of which I have not yet learned to enable on Windows).
+I've recently had to tolerate working on Windows, and used NoTcl there, too, mostly to take notes
+while going to online class via coursera, but also for editing scripts, and whatever.
+I don't know how many editors are available for Windows, but most of them I've seen, including M$'
+own Notepad, are bloated monstrosities.
+(NoTcl is not, nor ever will be jEdit, or EMACS (thank the GODS!), it's just a humble, basic edior.)
+
+So, when I found Chocolatey (http://www.chocolatey.org), I though,"Hey, let's share NoTcl with other users."
+Maybe someone else will find it useful. I whipped up a starkit .exe file, slapped up a github repo, and
+*BOOM* first release.
+

@@ -1,6 +1,8 @@
 #!/bin/sh
 
-# sticky note thingy in tcl/tk
+# NoTcl started as a sticky note thingy in tcl/tk
+# now it's a bit more than that, but still a very basic
+# editor, quick, light, very simple, and easy to use.
 # just tricking tcl here\
 exec wish8.5 -f "$0" ${1+"$@"}
 

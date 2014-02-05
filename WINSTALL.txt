@@ -1,0 +1,20 @@
+Windows Installation Instructions:
+---------------------------------
+
+Your best bet, honestly, is to install NoTcl with Chocolatey (see http://www.chocolatey.org).
+Chocolatey is like apt-get for Windows. If you don't know what apt-get is, that's okay.
+It's just a simple, easy, safe, and secure way to download and install free/open source
+software.
+
+But you could just stick the notcl.exe anywhere you like and click on it to start it,
+or make a shortcut to it on your desktop.
+It's that simple. No dependencies, no complicated process, no configs.
+NoTcl is a simple editor.
+
+Now, you can, of course, see the source code in the main.tcl file,
+but if you want to run that, you should have Tcl/Tk 8.5 or newer installed.
+Get it at http://www.activestate.com/ActiveTcl
+
+Questions?
+Find Tony (the author of this editor) at http://wiki.tonybaldwin.info
+
