@@ -28,7 +28,7 @@ bind . <Control-r> {catch {.txt.txt edit redo}}
 bind . <Control-a> {.txt.txt tag add sel 1.0 end}
 bind . <Control-s> {file_save}
 bind . <Control-b> {file_saveas}
-bind . <Control-n> {eval exec notes.tcl &}
+bind . <Control-n> {eval exec notcl &}
 bind . <Control-t> {eval exec xterm &}
 bind . <Control-p> {prnt}
 bind . <Control-o> {OpenFile}
