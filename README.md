@@ -3,9 +3,9 @@ notcl
 
 a very simple, but handy text editor in tcl/tk
 
-by tony baldwin | http://tonyb.us/notcl
+by tony baldwin | http://wiki.tonybaldwin.me/doku.php/hax/notcl
 
-![NoTcl](http://tonybaldwin.homelinux.net/images/notclshot201402041200.png)
+![NoTcl](http://tonybaldwin.me/images/notclshot201402041200.png)
 
 Cross-platform, Windows, Linux
 Written in Tcl/Tk
